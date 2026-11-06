@@ -1,86 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="et">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Õppematerjal: kasutajavoog, otsustuskohad ja lihtne prototüüp Figmas." />
-  <title>Kasutajavoog ja rakenduse ülesehitus</title>
-  <style>
-    :root{--ink:#24251f;--muted:#74776e;--cream:#f6f3e9;--paper:#fffcf5;--line:#e3dfd3;--green:#355c4a;--lime:#dff0bc;--orange:#eea978;--dark:#1d362b}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}h1,h2,h3{line-height:1.12;letter-spacing:-.045em}h1{font-size:clamp(3rem,7vw,6.2rem);margin:16px 0 22px;font-weight:760}h2{font-size:clamp(2rem,4vw,3.3rem);margin:0 0 20px}h3{font-size:1.25rem;margin:0 0 10px}p{margin:0 0 16px}a{color:inherit}button{font:inherit;cursor:pointer}nav{display:flex;justify-content:space-between;align-items:center;padding:22px max(5vw,24px);border-bottom:1px solid var(--line);gap:12px}nav .brand{font-weight:800;letter-spacing:-.03em}nav .navlinks{display:flex;gap:24px;font-size:14px}nav a{text-decoration:none}nav a:hover{text-decoration:underline}.wrap{max-width:1180px;margin:auto;padding:0 28px}.hero{padding:100px 0 90px;display:grid;grid-template-columns:1.18fr .82fr;gap:50px;align-items:center}.eyebrow{font-weight:750;text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:var(--green)}.lead{font-size:clamp(1.15rem,2vw,1.45rem);max-width:660px;color:#54574d}.pill{display:inline-block;background:var(--lime);padding:7px 14px;border-radius:50px;font-size:13px;font-weight:700}.hero-art{min-height:420px;background:var(--green);border-radius:210px 210px 38px 38px;display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:20px 20px 0 #e7dfc9}.cup{font-size:180px;filter:drop-shadow(0 20px 12px #193b2b80);transform:rotate(-9deg)}.hero-note{position:absolute;bottom:32px;right:24px;background:var(--paper);padding:12px 18px;border-radius:14px;transform:rotate(5deg);font-weight:700}.number{color:#e5e4d9;font-size:100px;line-height:1;font-weight:900;letter-spacing:-.09em}.section{padding:88px 0;border-top:1px solid var(--line)}.sectionhead{max-width:780px;margin-bottom:38px}.sectionhead p{color:#60645b;font-size:18px}.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:30px}.card p:last-child{margin-bottom:0}.dark{background:var(--dark);color:#f7f5eb}.dark .sectionhead p{color:#d1dccc}.dark .card{background:#2b493a;border-color:#54705e}.bigquote{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:650;line-height:1.35;letter-spacing:-.035em}.diagram-area{background:#fffdfa;color:var(--ink);border-radius:24px;padding:35px 20px;overflow:auto;border:1px solid #e8e1d3}.diagram{min-width:700px;width:100%;height:auto;display:block}.node{fill:#f2f3e8;stroke:#859b7b;stroke-width:2}.decision{fill:#ffebd8;stroke:#d78b55;stroke-width:2}.finish{fill:#d6efb2;stroke:#527d3c;stroke-width:2}.arrow{stroke:#7c8277;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.diagram text{font-family:system-ui,sans-serif;fill:#26372e;font-size:17px;font-weight:600;text-anchor:middle;dominant-baseline:middle}.diagram .edge-label{font-size:15px;fill:#9d6239}.legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:24px;font-size:14px}.key{display:inline-block;width:15px;height:15px;border:2px solid #859b7b;background:#f2f3e8;margin-right:6px;vertical-align:-2px;border-radius:3px}.key.diamond{background:#ffebd8;border-color:#d78b55;transform:rotate(45deg)}.key.end{background:#d6efb2;border-color:#527d3c;border-radius:20px}.hint{background:#ecf1df;border-left:5px solid #729456;padding:22px 26px;border-radius:0 18px 18px 0;margin-top:25px}.steps{counter-reset:step}.step{display:grid;grid-template-columns:65px 1fr;gap:14px;padding:25px 0;border-bottom:1px solid var(--line)}.step:before{counter-increment:step;content:counter(step,decimal-leading-zero);font-weight:850;color:var(--green);font-size:24px}.wireframes{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:35px}.phone{width:195px;background:#fff;border:7px solid #2f3b33;border-radius:30px;padding:22px 12px 18px;min-height:285px;box-shadow:0 12px 24px #0001}.phone .bar{height:11px;background:#e8e9e4;border-radius:10px;margin:13px 0}.phone .photo{height:77px;background:#dce3d8;border-radius:10px;display:grid;place-items:center;font-size:35px}.phone .btn{background:var(--green);color:white;text-align:center;padding:7px;border-radius:7px;font-size:12px;margin-top:16px}.phone .tiny{font-size:12px;font-weight:750;margin-top:13px}.phone .sub{font-size:10px;color:#777}.arrowtext{align-self:center;font-size:28px;color:#63806c}.scenario{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}.choice{background:#fff;border:2px solid #d9ded2;padding:14px 18px;border-radius:12px;text-align:left;flex:1;min-width:220px}.choice:hover,.choice:focus-visible{border-color:var(--green)}.feedback{min-height:48px;font-weight:700;color:var(--green)}.footer{padding:35px 0;color:#667266;font-size:14px}.tag{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#a2bd93;font-weight:800}.list{padding-left:22px}.list li{margin-bottom:9px}@media(max-width:800px){nav .navlinks{display:none}.hero{grid-template-columns:1fr;padding:65px 0}.hero-art{min-height:260px;max-width:430px}.cup{font-size:115px}.two,.three{grid-template-columns:1fr}.section{padding:62px 0}.wrap{padding:0 20px}.card{padding:23px}.arrowtext{display:none}}
-    /* Wireframe'id on teadlikult ainult halltoonides. */
-    .wireframes{background:#f0f0f0;border-radius:18px;padding:20px 12px}
-    .phone{background:#fff;border-color:#292929;box-shadow:0 8px 0 #d2d2d2;color:#111}
-    .phone .bar{background:#d6d6d6}
-    .phone .photo{background:#dedede;color:#555;font-size:12px;font-weight:700;border:1px dashed #aaa}
-    .phone .btn{background:#3b3b3b;color:#fff}
-    .phone .sub{color:#555}
-    .practice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-    .practice-card{background:#fffdf8;border:1px solid var(--line);border-radius:23px;padding:25px;min-width:0}
-    .practice-meta{font-size:12px;font-weight:800;letter-spacing:.13em;color:#56705a;text-transform:uppercase}
-    .practice-card h3{margin:9px 0 8px;font-size:24px}
-    .practice-card>p{font-size:14px;color:#60645b}
-    .mini-flow{overflow-x:auto;background:#f7f7f2;border:1px solid #dfdfd5;border-radius:15px;padding:10px;margin:18px 0}
-    .mini-flow svg{width:100%;min-width:390px;height:auto;display:block}
-    .mock-frame{background:#eaeaea;border:1px solid #c7c7c7;padding:16px;border-radius:16px;margin:16px 0;color:#1a1a1a}
-    .mock-screen{background:#fff;border:3px solid #292929;border-radius:14px;max-width:280px;min-height:200px;margin:auto;padding:17px;box-shadow:0 5px 0 #ccc}
-    .mock-title{font-size:15px;font-weight:800;margin-bottom:12px}
-    .mock-line{background:#d9d9d9;border-radius:4px;height:15px;margin:9px 0}
-    .mock-field{border:1px solid #888;border-radius:5px;padding:7px 10px;font-size:12px;margin:8px 0;color:#4a4a4a;min-height:32px}
-    .mock-button{background:#3d3d3d;color:white;text-align:center;padding:9px 10px;border-radius:6px;font-weight:700;font-size:12px;margin-top:13px}
-    .mock-button.ghost{background:#fff;color:#333;border:1px solid #777}
-    .mock-note{font-size:11px;color:#666;margin-top:10px}
-    .quiz-options{display:grid;gap:8px;margin-top:15px}
-    .quiz-option{width:100%;text-align:left;background:#fff;border:1px solid #cbd0c7;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.35}
-    .quiz-option:hover,.quiz-option:focus-visible{border-color:#355c4a;background:#f1f5ea}
-    .quiz-option.selected{border:2px solid #355c4a;background:#eaf2e5}
-    .quiz-result{padding-top:12px;font-size:13px;min-height:50px;color:#375943}
-    .quiz-score{background:#355c4a;color:#fff;padding:18px 22px;border-radius:14px;margin:24px 0;font-weight:700}
-    @media(max-width:800px){.practice-grid{grid-template-columns:1fr}.practice-card{padding:18px}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="Kasutajavoo ja wireframe'i harjutustest. Kümme küsimust ja Moodle'i salasõna." />
+<title>Kasutajavoo harjutustest · Veebidisaini alused</title>
+<style>
+:root{--green:#355c4a;--ink:#263029;--muted:#677166;--line:#dedfd5;--cream:#f6f3e9}*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}a{color:inherit}header{background:#284838;color:#f9faef;padding:42px max(24px,calc((100vw - 960px)/2)) 52px}header a{font-size:14px;color:#d7ebcc;text-decoration:none}header a:hover{text-decoration:underline}h1{font-size:clamp(2.4rem,5.4vw,4.6rem);letter-spacing:-.055em;line-height:1.05;margin:20px 0}header p{max-width:790px;color:#e0e9df;font-size:19px}main{max-width:1000px;margin:auto;padding:32px 22px 80px}.quiz-score{background:#e3edda;border:1px solid #b7ceb0;border-radius:15px;padding:18px 22px;font-weight:800;position:sticky;top:0;z-index:5;box-shadow:0 4px 18px #0000000a}.practice-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;margin-top:30px}.practice-card{background:#fffdf9;border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,40px);min-width:0;box-shadow:0 10px 28px #17291f0a}.practice-meta{color:#637b63;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}.practice-card h3{font-size:clamp(1.65rem,3vw,2.3rem);margin:6px 0;letter-spacing:-.04em}.practice-card>p{color:var(--muted);font-size:17px;margin:0 0 24px}.mini-flow{background:#f7f7f3;border:1px solid #deded5;border-radius:16px;overflow-x:auto;padding:20px 14px;margin-bottom:28px}.mini-flow svg{width:100%;min-width:810px;height:auto;display:block}.mock-frame{background:#ebebeb;border:1px solid #ccc;padding:28px;border-radius:17px;margin:15px 0 23px}.mock-screen{max-width:380px;min-height:270px;background:#fff;border:4px solid #333;border-radius:17px;padding:30px;margin:auto;color:#161616;box-shadow:0 9px 0 #c8c8c8}.mock-title{font-size:21px;font-weight:800;margin-bottom:20px}.mock-line{background:#ddd;height:22px;border-radius:5px;margin:13px 0}.mock-field{font-size:16px;color:#555;border:2px solid #888;border-radius:7px;min-height:48px;padding:10px 13px;margin:12px 0}.mock-button{font-size:16px;background:#333;color:white;border-radius:7px;padding:12px;text-align:center;font-weight:700;margin-top:19px}.mock-note{color:#666;font-size:14px;margin-top:14px}.quiz-options{display:grid;gap:11px;margin:16px 0}.quiz-option{font:inherit;line-height:1.35;width:100%;border:2px solid #d1d6ca;text-align:left;background:#fff;border-radius:11px;padding:14px 16px;cursor:pointer}.quiz-option:hover,.quiz-option:focus-visible{border-color:var(--green);background:#eff5e8}.quiz-option.selected{border-color:var(--green);background:#e6f2df}.quiz-result{font-size:16px;font-weight:600;min-height:50px;color:#355c4a}.result-panel{margin-top:30px;background:#e4ecdc;border:2px dashed #9eb699;border-radius:23px;padding:30px;text-align:center}.result-panel h2{font-size:2rem;margin:0 0 10px}.secret{display:inline-block;margin:15px auto;background:#fff;border:2px solid var(--green);border-radius:12px;padding:12px 28px;font-size:clamp(1.8rem,5vw,3rem);font-weight:900;letter-spacing:.17em}.reset{padding:13px 19px;background:#fff;border:2px solid var(--green);color:var(--green);border-radius:12px;font:inherit;font-weight:800;cursor:pointer;margin-top:20px}@media(max-width:700px){main{padding:22px 13px 60px}.practice-card{padding:18px}.mock-frame{padding:14px}.mock-screen{padding:20px}.mini-flow{padding:8px}header{padding:30px 20px 40px}}
+.quiz-option{color:#1e2923!important;background:#fff!important;border:2px solid #abb5ab!important;opacity:1!important}
+.quiz-option:hover,.quiz-option:focus-visible{background:#eff5e8!important;color:#1e2923!important}
+.quiz-option.selected{border-color:#4b6b95!important;background:#e8f0fc!important;color:#193657!important}
+.quiz-option.correct{border-color:#208348!important;background:#d8f2df!important;color:#11562e!important}
+.quiz-option.incorrect{border-color:#c13d3d!important;background:#ffe0dc!important;color:#8c2222!important}
+.check-answer{font:inherit;background:#355c4a;color:#fff;border:0;border-radius:10px;padding:12px 20px;font-weight:800;cursor:pointer;margin:14px 0}
+.check-answer:disabled{background:#aeb7ad;color:#29332e;cursor:not-allowed}
+.quiz-result.error{color:#ac3030}
+.prototype-wrap{background:#ebebeb;border:1px solid #c5c5c5;border-radius:17px;padding:24px 14px;margin:18px 0 26px;color:#171717}
+.prototype-screen{background:#fff;border:4px solid #333;border-radius:17px;max-width:390px;min-height:275px;margin:auto;padding:25px;box-shadow:0 9px 0 #c8c8c8}
+.prototype-screen h4{font-size:21px;margin:0 0 14px;letter-spacing:-.02em;color:#111}
+.prototype-screen p{font-size:14px;color:#3b3b3b;margin:8px 0 13px}
+.prototype-action{display:block;width:100%;font:inherit;font-size:16px;font-weight:750;background:#333;color:#fff;border:2px solid #333;border-radius:7px;padding:12px;margin:12px 0;cursor:pointer}
+.prototype-action.secondary{background:#fff;color:#222;border-color:#777}
+.prototype-action:hover,.prototype-action:focus-visible{outline:3px solid #999;outline-offset:2px}
+.prototype-status{border:1px solid #888;background:#f0f0f0;color:#222;padding:12px;border-radius:7px;font-weight:700;font-size:15px;margin:14px 0}
+.prototype-reset{display:block;margin:20px auto 0;padding:10px 16px;border:2px solid #555;border-radius:9px;background:#fff;color:#222;font:inherit;font-weight:700;cursor:pointer}
+.prototype-caption{text-align:center;font-size:14px;color:#424242;margin:0 0 12px}
+.proto-label{display:block;font-size:13px;font-weight:700;margin:12px 0;color:#333}
+.proto-input{display:block;width:100%;min-height:42px;font:inherit;font-size:15px;color:#111;background:#fff;border:2px solid #888;border-radius:7px;padding:10px;margin-top:5px}
+textarea.proto-input{min-height:80px;resize:vertical}
+.prototype-validation{color:#333!important;border-left:4px solid #555;padding:7px 10px;background:#eee;font-weight:650}
+.prototype-small{font-size:12px!important;color:#606060!important}
+</style>
 </head>
 <body>
-<nav><div class="brand">VEEBIDISAINI ALUSED <span style="color:#96a68f">/ 09</span></div><div class="navlinks"><a href="#moiste">Mõiste</a><a href="#skeem">Näidisskeem</a><a href="#figma">Praktika</a><a href="#kontroll">Enesekontroll</a></div><span class="pill">Õppematerjal</span></nav>
-<main>
-<header class="wrap hero"><div><div class="eyebrow">Osa 1 · UI/UX disain</div><h1>Kasutajavoog ja rakenduse ülesehitus<span style="color:#95ad82">.</span></h1><p class="lead">Enne kui hakkame ekraane kaunistama, mõtleme läbi, kuidas inimene nende vahel liigub. Täna kavandame kohvitellimuse teekonna esimesest klõpsust kuni kinnitamiseni.</p><span class="pill">User Flow · Wireframe · Prototype</span></div><div class="hero-art" aria-label="Kohvitassi illustratsioon"><div class="cup">☕</div><div class="hero-note">Üks cappuccino, palun!</div></div></header>
-<section class="section dark" id="moiste"><div class="wrap"><div class="sectionhead"><div class="tag">01 / Alustame eesmärgist</div><h2>Mis on kasutajavoog?</h2><p>Kasutajavoog ehk <em>User Flow</em> on lihtne skeem, mis näitab, milliseid samme inimene rakenduses teeb, et jõuda soovitud tulemuseni.</p></div><div class="two"><div class="card"><h3>Kasutaja eesmärk</h3><p class="bigquote">„Tahan tellida ühe cappuccino ja sellele ise järele minna.”</p></div><div class="card"><h3>Disaineri küsimused</h3><ul class="list"><li>Kust kasutaja alustab?</li><li>Millist infot ta vajab?</li><li>Milliseid valikuid ta peab tegema?</li><li>Mis juhtub, kui ta muudab meelt?</li><li>Kuidas ta saab aru, et tellimus õnnestus?</li></ul></div></div><p style="margin-top:24px;color:#d1dccc">Kasutajavoog ei ole valmis kujundus. See aitab kõigepealt kontrollida rakenduse loogikat.</p></div></section>
-<section class="section" id="tahised"><div class="wrap"><div class="sectionhead"><div class="eyebrow">02 / Skeemi keel</div><h2>Kolm lihtsat tähist</h2><p>Alguses piisab kolmest kujundist. Oluline on, et sinu skeem oleks loetav ja järjekindel.</p></div><div class="three"><div class="card"><div style="width:100px;height:55px;background:#f2f3e8;border:2px solid #859b7b;border-radius:12px;margin-bottom:20px"></div><h3>Ristkülik</h3><p>Ekraan või tegevus: <em>Kohvimenüü</em>, <em>Lisa ostukorvi</em>.</p></div><div class="card"><div style="width:50px;height:50px;background:#ffebd8;border:2px solid #d78b55;transform:rotate(45deg);margin:12px 0 25px 24px"></div><h3>Romb</h3><p>Otsustuskoht, millest lähevad välja näiteks <em>Jah</em> ja <em>Ei</em>.</p></div><div class="card"><div style="width:100px;height:55px;background:#d6efb2;border:2px solid #527d3c;border-radius:40px;margin-bottom:20px"></div><h3>Ümar lõpp-punkt</h3><p>Teekonna algus või edukas lõpp: <em>Tellimus kinnitatud</em>.</p></div></div><div class="hint"><strong>Pea meeles:</strong> nooled näitavad liikumise suunda. Kui kasutaja saab tagasi minna, peab ka see tee skeemil olemas olema.</div></div></section>
-<section class="section" id="skeem"><div class="wrap"><div class="sectionhead"><div class="eyebrow">03 / Näide meie kohvikust</div><h2>Üks cappuccino. Üks lihtne valik.</h2><p>Vaata skeemi ülevalt alla. Kasutaja otsustab, kas soovib cappuccino tellida. Kui ei, saab ta naasta kohvimenüüsse.</p></div><div class="diagram-area"><svg class="diagram" viewBox="0 0 980 910" role="img" aria-label="Lihtne kasutajavoog: avaleht, kohvimenüü, cappuccino tootekaart, otsus, kas tellida cappuccino. Ei viib kohvimenüüsse; jah viib ostukorvi lisamise, ostukorvi, vormistamise ja kinnitamiseni."><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0 0 L7 3 L0 6" fill="none" stroke="#7c8277" stroke-width="1.7"/></marker></defs>
-<rect class="node" x="355" y="22" width="270" height="62" rx="15"/><text x="490" y="53">Avaleht</text><path class="arrow" d="M490 84 V123"/>
-<rect class="node" x="355" y="130" width="270" height="62" rx="15"/><text x="490" y="161">Kohvimenüü</text><path class="arrow" d="M490 192 V231"/>
-<rect class="node" x="355" y="238" width="270" height="62" rx="15"/><text x="490" y="269">Cappuccino tootekaart</text><path class="arrow" d="M490 300 V345"/>
-<polygon class="decision" points="490,349 665,425 490,501 315,425"/><text x="490" y="413">Kas soovid</text><text x="490" y="438">cappuccino tellida?</text><path class="arrow" d="M490 501 V531"/><text class="edge-label" x="520" y="517">Jah</text>
-<path class="arrow" d="M315 425 H180 V160 H348"/><text class="edge-label" x="210" y="404">Ei</text>
-<rect class="node" x="355" y="537" width="270" height="62" rx="15"/><text x="490" y="568">Lisa ostukorvi</text><path class="arrow" d="M490 599 V635"/>
-<rect class="node" x="355" y="641" width="270" height="62" rx="15"/><text x="490" y="672">Ostukorv</text><path class="arrow" d="M490 703 V739"/>
-<rect class="node" x="355" y="745" width="270" height="62" rx="15"/><text x="490" y="776">Tellimuse vormistamine</text><path class="arrow" d="M490 807 V839"/>
-<rect class="finish" x="355" y="845" width="270" height="52" rx="26"/><text x="490" y="871">Tellimus kinnitatud!</text></svg><div class="legend"><span><i class="key"></i> Ekraan / tegevus</span><span><i class="key diamond"></i> Otsus</span><span><i class="key end"></i> Lõpptulemus</span><span>→ Liikumissuund</span></div></div><div class="hint"><strong>Pane tähele:</strong> see on teadlikult lihtsustatud näide, mis näitab üht otsustuskohta. Ostukorvi sisu muutmist ja maksmise erandolukordi me selles skeemis veel ei käsitle.</div></div></section>
-<section class="section" id="figma"><div class="wrap"><div class="sectionhead"><div class="eyebrow">04 / Teooriast praktikasse</div><h2>Kuidas see Figmas valmis teha?</h2><p>Skeemi võib teha FigJamis või tavalises Figma disainifailis. Kujundus ei pea veel ilus olema.</p></div><div class="two"><div class="steps"><div class="step"><div><h3>Kirjuta üles eesmärk</h3><p>„Kasutaja tellib cappuccino kaasa.” Hoia see lause kogu töö jooksul silme ees.</p></div></div><div class="step"><div><h3>Lisa peamised ekraanid</h3><p>Avaleht, kohvimenüü, tootekaart, ostukorv ja tellimuse kinnitus.</p></div></div><div class="step"><div><h3>Märgi otsustuskoht</h3><p>Kas kasutaja soovib cappuccino tellida? Märgi nii „Jah” kui ka „Ei” tee.</p></div></div><div class="step"><div><h3>Ühenda kõik nooltega</h3><p>Kontrolli nii edasiliikumist kui ka võimalust menüüsse tagasi pöörduda.</p></div></div><div class="step"><div><h3>Joonista lihtsad wireframe'id</h3><p>Alles nüüd visanda ekraanid hallide plokkide, pealkirjade ja nuppudega.</p></div></div></div><div class="card" style="align-self:start"><h3>Skeemist ekraanideni</h3><p>Wireframe ehk karkass näitab elementide asukohti, ilma et peaksid veel otsustama värve või dekoratsioone.</p><div class="wireframes"><div class="phone"><div class="tiny">Kohvimenüü</div><div class="bar"></div><div class="photo">Pildi koht</div><div class="tiny">Cappuccino</div><div class="sub">Kohv piimavahuga</div><div class="btn">Vaata lähemalt</div></div><div class="phone"><div class="tiny">Tootekaart</div><div class="photo" style="margin-top:16px">Pildi koht</div><div class="tiny">Cappuccino</div><div class="sub">3,50 €</div><div class="bar"></div><div class="btn">Lisa ostukorvi</div></div><div class="phone"><div class="tiny">Ostukorv</div><div class="bar"></div><div class="tiny">1 × Cappuccino</div><div class="sub">Kokku 3,50 €</div><div class="bar"></div><div class="btn">Vormista tellimus</div></div></div><p style="font-size:13px;color:var(--muted);margin-top:20px">Need on mustvalged karkassid, mitte lõplikud kasutajaliidese kujundused.</p></div></div></div></section>
-<section class="section dark" id="vead"><div class="wrap"><div class="sectionhead"><div class="tag">05 / Kasutaja ei loe meie mõtteid</div><h2>Levinud vead</h2></div><div class="three"><div class="card"><h3>Tagasitee puudub</h3><p>Kasutaja teeb vale valiku, kuid ei saa enam eelmisele ekraanile minna.</p></div><div class="card"><h3>Nupp ei ütle midagi</h3><p>„Edasi” võib olla ebaselge. „Lisa ostukorvi” kirjeldab tulemust palju paremini.</p></div><div class="card"><h3>Kinnitust ei ilmu</h3><p>Kasutaja vajutab tellimisnuppu, kuid ei tea, kas tellimus võeti vastu.</p></div></div></div></section>
-<section class="section" id="kontroll"><div class="wrap"><div class="sectionhead"><div class="eyebrow">06 / Kontrolli oma arusaamist</div><h2>Üks väike olukord</h2><p>Kasutaja on jõudnud ostukorvi, kuid otsustab lisada veel ühe joogi. Milline lahendus on kõige mõistlikum?</p></div><div class="scenario"><button class="choice" data-answer="wrong">A. Ostukorvist saab liikuda ainult maksmiseni.</button><button class="choice" data-answer="right">B. Ostukorvist saab naasta kohvimenüüsse ja jätkata valimist.</button><button class="choice" data-answer="wrong">C. Kasutaja peab kogu rakenduse sulgema ja uuesti avama.</button></div><div class="feedback" id="feedback" role="status" aria-live="polite">Vali üks vastus.</div><div class="hint"><strong>Iseseisev mõtlemisülesanne:</strong> vali üks lihtne rakendus (näiteks raamatukogu, kinopiletid või toidu tellimine) ja joonista vähemalt viie sammuga kasutajavoog. Lisa üks otsustuskoht ning näita, kuhu kasutaja liigub mõlema vastuse korral.</div></div></section>
-<section class="section" id="praktika"><div class="wrap"><div class="sectionhead"><div class="eyebrow">07 / Interaktiivne harjutus</div><h2>10 kasutajavoogu. Leia viga ekraanilt.</h2><p>Iga kasutajavoo skeem on loogiliselt korrektne. Võrdle seda mustvalge wireframe'iga ja otsusta, kas ekraan aitab kasutajal eesmärgini jõuda. Mõnes näites polegi viga.</p></div><div class="quiz-score" id="practice-score" aria-live="polite">Vastatud: 0 / 10 · Õigeid vastuseid: 0</div><div class="practice-grid" id="practice-grid"></div><div style="margin-top:24px"><button id="reset-practice" class="choice" style="max-width:290px">Alusta harjutust uuesti</button></div></div></section>
-<section class="section" style="background:#e4ecd8"><div class="wrap"><div class="eyebrow">Järgmine samm</div><h2>Loogika on olemas. Nüüd saab kujundada.</h2><p class="lead">Järgmises osas loome vormid, menüüd ja kasutajaliidese elemendid. Seejärel saame sama kujundust proovida heledas ja tumedas režiimis.</p></div></section>
-</main><footer class="wrap footer">Veebidisaini alused · Õppematerjal · Kasutajavoog (User Flow)</footer>
-<script>document.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.choice').forEach(x=>{x.style.borderColor='#d9ded2';x.style.background='#fff'});const ok=b.dataset.answer==='right';b.style.borderColor=ok?'#355c4a':'#cc795b';b.style.background=ok?'#ecf5dc':'#fff0e8';document.querySelector('#feedback').textContent=ok?'Õige! Kasutaja peab saama oma valikut muuta, ilma et teekond katkeks.':'Proovi uuesti. Mõtle, kuidas inimene saaks oma ostukorvi täiendada.'}));</script>
+<header><a href="kasutajavoog-ja-rakenduse-ulesehitus.html">← Tagasi õppematerjali juurde</a><h1>Kasutajavoo harjutustest</h1><p>Uuri kümmet õiget kasutajavoo skeemi ja võrdle neid ekraanide mustvalgete karkassidega. Leia võimalik kasutajaliidese viga või otsusta, et ekraan on korras. Kõigile kümnele küsimusele õigesti vastates avaneb Moodle'i salasõna.</p></header>
+<main><div id="practice-score" class="quiz-score" aria-live="polite">Vastatud õigesti: 0 / 10</div><div id="practice-grid" class="practice-grid"></div><section class="result-panel" id="final-result" aria-live="polite"><h2>Salasõna ootab!</h2><p>Vasta kõigile kümnele küsimusele õigesti. Võid vastuseid parandada nii mitu korda kui soovid.</p></section><button id="reset-practice" class="reset">Alusta testi uuesti</button></main>
+<script>
+// Kõik kümme näidist on sirvitavad, mustvalged miniprototüübid.
+// Mõned kasutajaliidese vead on tahtlikud ning moodustavad harjutuse osa.
+const prototypeStates={};
+const prototypeData={};
+const emailOK=value=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+const escapeProto=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pButton=(label,action,secondary=false)=>`<button type="button" class="prototype-action${secondary?' secondary':''}" data-proto="${action}">${label}</button>`;
+const pBox=(message)=>`<div class="prototype-status">${message}</div>`;
+const pField=(name,placeholder,type='text',value='')=>`<label class="proto-label">${name}<input class="proto-input" type="${type}" placeholder="${placeholder}" data-field="${name}" value="${escapeProto(value)}" autocomplete="off"></label>`;
+const pPage=(title,body)=>`<h4>${title}</h4>${body}`;
+const pError=message=>`<p class="prototype-validation" role="alert">${message}</p>`;
+const contactForm=(data={},error='')=>pPage('Võta ühendust',pField('Nimi','Mari','text',data['Nimi']||'')+pField('E-post','mari@example.com','email',data['E-post']||'')+`<label class="proto-label">Sõnum<textarea class="proto-input" data-field="Sõnum" placeholder="Kirjuta sõnum">${escapeProto(data['Sõnum']||'')}</textarea></label>`+(error?pError(error):'')+pButton('Saada sõnum','6:send'));
+function prototypeMarkup(i){return `<div class="prototype-wrap" data-prototype="${i}"><p class="prototype-caption">Proovi mõlemat teekonda. Kui jääd ummikusse, saad prototüübi uuesti alustada.</p><div id="prototype-ui-${i}" class="prototype-screen" aria-live="polite"></div><button type="button" class="prototype-reset" data-proto="${i}:start">↻ Alusta prototüüpi uuesti</button></div>`;}
+function prototypeScreen(i,state){
+  const data=prototypeData[i]||{};
+  switch(i){
+    case 0:
+      if(state==='start')return pPage('Raamatukogu','<p>Vali raamat:</p>'+pButton('Kevadine aed','0:available',true)+pButton('Mere saladus','0:unavailable',true));
+      if(state==='available')return pPage('Raamatu detailid',pBox('Kevadine aed · saadaval · laenutus 14 päeva')+pButton('Laenuta raamat','0:done'));
+      if(state==='unavailable')return pPage('Raamatu detailid',pBox('Mere saladus on praegu välja laenutatud.')+pButton('Vali teine raamat','0:start'));
+      return pPage('Laenutus kinnitatud',pBox('Raamat on edukalt laenutatud!'));
+    case 1:
+      if(state==='start')return pPage('Kinokava','<p><strong>Film: Täheöö</strong></p><p>Vali sobiv seanss:</p>'+pButton('Täna 18:00','1:available',true)+pButton('Täna 20:30','1:unavailable',true));
+      if(state==='available')return pPage('Seansi valik',pBox('Täheöö · täna 18:00 · kohti saadaval')+'<div class="mock-field">Rida 5, koht 8</div><p>Hind: 8 €</p><p class="prototype-small">Vaata, kuidas siit ostmisega edasi minna.</p>');
+      return pPage('Seansi valik',pBox('Täheöö · 20:30 on välja müüdud.')+pButton('Vali teine seanss','1:start'));
+    case 2:
+      if(state==='start')return pPage('Broneeri vastuvõtt','<p><strong>Perearst</strong> · 12.11</p><p>Vali sobiv kellaaeg:</p>'+pButton('10:30','2:busy',true)+pButton('11:30','2:free',true));
+      if(state==='busy')return pPage('Valitud vastuvõtuaeg',pBox('12.11 kell 10:30')+pButton('Kontrolli saadavust','2:blocked'));
+      if(state==='blocked')return pPage('Aeg ei ole saadaval',pBox('10:30 on juba hõivatud.')+pButton('Kinnita aeg','2:blocked'));
+      if(state==='free')return pPage('Valitud vastuvõtuaeg',pBox('12.11 kell 11:30')+pButton('Kontrolli saadavust','2:confirm'));
+      if(state==='confirm')return pPage('Aeg on vaba',pBox('11:30 on saadaval.')+pButton('Kinnita aeg','2:done'));
+      return pPage('Aeg kinnitatud',pBox('Vastuvõtuaeg 11:30 on kinnitatud!'));
+    case 3:
+      if(state==='start'||state==='invalid')return pPage('Loo konto',pField('E-post','mari@example.com','email',data['E-post']||'')+pField('Parool','Vähemalt 8 märki','password',data['Parool']||'')+pField('Korda parooli','Korda parooli','password',data['Korda parooli']||'')+(state==='invalid'?pError(data.error):'')+pButton('Logi sisse','3:register'));
+      if(state==='login')return pPage('Sisselogimine',pBox('Sind suunati sisselogimisvaatesse, mitte konto loomise kinnitusele.'));
+      return pPage('Loo konto',pBox('Kontrolli sisestatud andmeid.'));
+    case 4:
+      if(state==='start'||state==='invalid')return pPage('Unustasid parooli?',pField('E-post','mari@example.com','email',data['E-post']||'')+(state==='invalid'?pError('Kontrolli sisestatud e-posti aadressi.'):'')+pButton('Saada taastamislink','4:send')+'<p class="prototype-small">Proovi korrektset ja vigast e-posti aadressi.</p>');
+      return pPage('Link saadetud',pBox('Kui aadress on kasutusel, saadetakse sinna taastamisjuhised.'));
+    case 5:
+      if(state==='start')return pPage('Toidumenüü','<p>Vali üks roog:</p>'+pButton('Pasta + jook · 12 €','5:order',true)+pButton('Salat · 8 €','5:salad',true));
+      if(state==='order'||state==='salad')return pPage('Tellimuse kokkuvõte',pBox(state==='order'?'Pasta + jook':'Salat')+`<div class="mock-field">Kogus: ${state==='order'?2:1}</div>`+pButton('Kinnita tellimus','5:done')+pButton('Eemalda roog ja vali uuesti','5:start',true));
+      return pPage('Tellimus kinnitatud',pBox('Tellimus on vastu võetud.'));
+    case 6:
+      if(state==='start'||state==='invalid')return contactForm(data,state==='invalid'?data.error:'');
+      return pPage('Sõnum saadetud',pBox('Aitäh! Sinu sõnum on saadetud.'));
+    case 7:
+      if(state==='start'||state==='silent'||state==='invalid')return pPage('Liitu uudiskirjaga',pField('E-post','mari@example.com','email',data['E-post']||'')+(state==='invalid'?pError('Sisesta korrektne e-posti aadress.'):'')+pButton('Liitu','7:send'));
+      return '';
+    case 8:
+      if(state==='start'||state==='failed')return pPage('Kodutöö esitamine','<p>Ülesanne 8 · tähtaeg reede</p><label class="proto-label">Lisa PDF-fail<input type="file" class="proto-input" data-upload="8"></label>'+(state==='failed'?pError('Faili ei saa lisada: lubatud on ainult PDF-vorming. Proovi uuesti.'):'')+'<p class="prototype-small">Proovi PDF-faili või mõnda muud failitüüpi.</p>');
+      if(state==='uploaded')return pPage('Kodutöö esitamine',pBox('Valitud fail: '+escapeProto(data.filename||'kodutoo.pdf'))+pButton('Esita töö','8:done')+pButton('Vali teine fail','8:start',true));
+      return pPage('Töö esitatud',pBox('Kodutöö on edukalt esitatud!'));
+    case 9:
+      if(state==='start')return pPage('Hotellitoad','<p>20.11–23.11 · vali tuba:</p>'+pButton('Kahekohaline tuba','9:available',true)+pButton('Peretuba','9:unavailable',true));
+      if(state==='available')return pPage('Broneeri tuba',pBox('Kahekohaline tuba · saadaval')+'<div class="mock-field">Saabumine: 20.11</div><div class="mock-field">Lahkumine: 23.11</div>'+pButton('Broneeri','9:done'));
+      if(state==='unavailable')return pPage('Vali teine tuba',pBox('Peretuba ei ole valitud kuupäevadel saadaval.')+pButton('Vaata teisi tube','9:start'));
+      return pPage('Broneering kinnitatud',pBox('Sinu broneering on kinnitatud.'));
+  }
+  return '';
+}
+function renderPrototype(i,state='start'){
+  prototypeStates[i]=state;
+  const root=document.getElementById('prototype-ui-'+i);
+  if(root)root.innerHTML=prototypeScreen(i,state);
+}
+function handlePrototypeClick(button){
+  const [iText,action]=button.dataset.proto.split(':');const i=Number(iText);
+  if(action==='start')prototypeData[i]={};
+  const root=button.closest('.prototype-screen');
+  const value=key=>root.querySelector(`[data-field="${key}"]`)?.value.trim()||'';
+  if(i===3&&action==='register'){
+    const data={'E-post':value('E-post'),'Parool':value('Parool'),'Korda parooli':value('Korda parooli')};
+    data.error=!emailOK(data['E-post'])?'Sisesta korrektne e-posti aadress.':data['Parool'].length<8?'Parool peab sisaldama vähemalt 8 märki.':data['Parool']!==data['Korda parooli']?'Paroolid ei ühti.':'';
+    prototypeData[i]=data;renderPrototype(i,data.error?'invalid':'login');return;
+  }
+  if(action==='send'){
+    if(i===4){prototypeData[i]={'E-post':value('E-post')};renderPrototype(i,emailOK(value('E-post'))?'done':'invalid');return;}
+    if(i===6){
+      const data={'Nimi':value('Nimi'),'E-post':value('E-post'),'Sõnum':value('Sõnum')};
+      data.error=!data['Nimi']?'Sisesta oma nimi.':!emailOK(data['E-post'])?'Sisesta korrektne e-posti aadress.':!data['Sõnum']?'Kirjuta sõnum.':'';
+      prototypeData[i]=data;renderPrototype(i,data.error?'invalid':'done');return;
+    }
+    if(i===7){prototypeData[i]={'E-post':value('E-post')};renderPrototype(i,emailOK(value('E-post'))?'silent':'invalid');return;}
+  }
+  renderPrototype(i,action);
+}
+function handlePrototypeUpload(input){
+  const file=input.files&&input.files[0];if(!file)return;
+  prototypeData[8]={filename:file.name};
+  renderPrototype(8,/\.pdf$/i.test(file.name)?'uploaded':'failed');
+}
+
+</script>
 <script>
 // Kümme teadlikult lihtsat kasutajavoogu. Iga skeem on korrektne;
 // võimalikud probleemid asuvad ainult ekraani mustvalges näidises.
 const exercises = [
-  {title:'Raamatu laenutamine',goal:'Lugeja soovib raamatukogus raamatu laenutada.',steps:['Raamatukogu','Vali raamat','Kas saadaval?','Laenutus kinnitatud'],no:'Vali teine',screen:'Raamatu detailid',parts:[['line','Raamatu pealkiri'],['field','Laenutusperiood: 14 päeva'],['button','Laenuta raamat']],options:['Laenutamise nupp puudub.','Ekraanil ei ole ilmset viga.','Raamatu pealkiri peaks olema peidetud.'],correct:1,why:'Raamatu nimi, laenutusperiood ja tegevusnupp on nähtavad. See on piisav lihtsustatud näide.'},
-  {title:'Kinopileti ostmine',goal:'Külastaja valib filmi ning ostab pileti.',steps:['Kinokava','Vali seanss','Kas kohti on?','Pilet ostetud'],no:'Teine seanss',screen:'Seansi valik',parts:[['line','Film: Täheöö'],['field','Rida 5, koht 8'],['note','Hind: 8 €']],options:['Pileti ostmiseks puudub selge tegevusnupp.','Filmi nime ei tohiks näidata.','Ekraanil ei ole ilmset viga.'],correct:0,why:'Kasutaja on valinud koha, kuid ostmist ega jätkamist võimaldavat nuppu ei ole.'},
-  {title:'Arsti vastuvõtule registreerumine',goal:'Patsient valib sobiva aja ja kinnitab broneeringu.',steps:['Vastuvõtud','Vali aeg','Kas aeg vaba?','Aeg kinnitatud'],no:'Teine aeg',screen:'Broneeri vastuvõtt',parts:[['line','Perearst'],['field','Kuupäev: 12.11'],['field','Kellaaeg: 10:30'],['button','Kinnita aeg']],options:['Puudub hinnainfo.','Ekraanil ei ole ilmset viga.','Puudub arsti foto.'],correct:1,why:'Vastuvõtu liik, aeg ja kinnitamise nupp on olemas. Foto ja hinnainfo ei ole selle lihtsa näite vältimatud osad.'},
-  {title:'Konto loomine',goal:'Uus kasutaja registreerub rakenduses.',steps:['Avaleht','Täida vorm','Kas andmed sobivad?','Konto loodud'],no:'Paranda vorm',screen:'Loo konto',parts:[['field','E-posti aadress'],['field','Parool'],['field','Korda parooli'],['button','Logi sisse']],options:['Parooli sisestusväli puudub.','Nupu tekst ei vasta konto loomise eesmärgile.','Ekraanil ei ole ilmset viga.'],correct:1,why:'„Logi sisse” viitab olemasoleva kontoga sisenemisele. Konto loomise nupu tekst peaks olema „Loo konto”.'},
-  {title:'Parooli taastamine',goal:'Kasutaja soovib unustatud parooli lähtestada.',steps:['Sisselogimine','Sisesta e-post','Kas aadress leitakse?','Link saadetud'],no:'Kontrolli aadressi',screen:'Unustasid parooli?',parts:[['field','E-posti aadress'],['button','Saada taastamislink'],['note','Saadame juhised sinu e-postile.']],options:['Ekraanil ei ole ilmset viga.','Kasutaja peab nägema vana parooli.','Taastamisnupp puudub.'],correct:0,why:'Kasutaja saab sisestada aadressi ja saata taastamislingi. Vana parooli ei pea näitama.'},
-  {title:'Toidu kaasa tellimine',goal:'Klient valib roa ja kinnitab tellimuse.',steps:['Menüü','Vali roog','Kas soovid tellida?','Tellimus kinnitatud'],no:'Tagasi menüüsse',screen:'Tellimuse kokkuvõte',parts:[['line','Pasta + jook'],['field','Kogus: 2'],['button','Kinnita tellimus']],options:['Tellimuse kinnitamine puudub.','Enne kinnitamist ei ole kogus nähtav.','Tellimuse koguhind puudub.'],correct:2,why:'Kogus ja kinnitamisnupp on olemas, kuid enne tellimist peaks kasutaja nägema koguhinda.'},
-  {title:'Kontaktvormi saatmine',goal:'Külastaja saadab ettevõttele sõnumi.',steps:['Kontakt','Täida vorm','Kas vorm korras?','Sõnum saadetud'],no:'Paranda väljad',screen:'Võta ühendust',parts:[['field','Nimi'],['field','E-post'],['field','Sõnum'],['button','Saada sõnum']],options:['Ekraanil ei ole ilmset viga.','Sõnumiväli puudub.','Saadunupp puudub.'],correct:0,why:'Kõik olulised sisestusväljad ja saatmisnupp on olemas.'},
-  {title:'Uudiskirjaga liitumine',goal:'Lugeja soovib saada uudiskirja.',steps:['Avaleht','Sisesta e-post','Kas aadress sobib?','Liitumine kinnitatud'],no:'Paranda e-post',screen:'Liitu uudiskirjaga',parts:[['field','E-posti aadress'],['button','Liitu'],['note','Pärast vajutamist ei kuvata ühtegi teadet.']],options:['Vormil on liiga vähe välju.','Puudub tagasiside liitumise õnnestumise kohta.','Ekraanil ei ole ilmset viga.'],correct:1,why:'Kasutaja peab pärast saatmist teada saama, kas liitumine õnnestus. See märkus kirjeldab puuduva kinnituse probleemi.'},
-  {title:'Kodutöö esitamine',goal:'Õpilane lisab faili ja esitab kodutöö.',steps:['Ülesanne','Lisa fail','Kas fail lisatud?','Töö esitatud'],no:'Vali fail uuesti',screen:'Kodutöö esitamine',parts:[['line','Ülesanne 8'],['field','Valitud fail: kodutoo.pdf'],['button','Esita töö'],['note','Esitamise tähtaeg: reede']],options:['Ekraanil ei ole ilmset viga.','Faili nimi peab olema peidetud.','Esitamise nupp puudub.'],correct:0,why:'Valitud fail, esitamisnupp ja tähtaeg on näha. See sobib õpilase ülesande täitmiseks.'},
-  {title:'Hotellitoa broneerimine',goal:'Külastaja valib toa ja kinnitab broneeringu.',steps:['Toad','Vali tuba','Kas vaba?','Broneering kinnitatud'],no:'Vali teine',screen:'Broneeri tuba',parts:[['line','Kahekohaline tuba'],['field','Saabumine: 20.11'],['field','Lahkumine: 23.11'],['button','Broneeri']],options:['Toatüüp puudub.','Kuupäevad puuduvad.','Hind enne broneerimist puudub.'],correct:2,why:'Külastaja peab enne siduvat broneerimist teadma hinda; sellel näidisel seda ei kuvata.'}
+  {title:'Raamatu laenutamine',goal:'Lugeja soovib raamatukogus raamatu laenutada. Vaata, mis juhtub siis, kui raamat ei ole saadaval.',steps:['Raamatukogu','Vali raamat','Kas saadaval?','Laenutus kinnitatud'],no:'Vali teine',firstLabel:'1. Raamat on saadaval',secondLabel:'2. Raamat ei ole saadaval',screen:'Raamatu detailid',parts:[['line','Raamatu pealkiri'],['field','Laenutusperiood: 14 päeva'],['button','Laenuta raamat']],secondScreen:'Raamatu detailid',secondParts:[['line','Raamatu pealkiri'],['note','Raamat on praegu välja laenutatud.'],['button','Vali teine raamat']],options:['Laenutamise nupp puudub.','Ekraanidel ei ole ilmset viga.','Raamatu pealkiri peaks olema peidetud.'],correct:1,why:'Kui raamat on saadaval, saab seda laenutada. Kui ei ole, suunatakse lugeja teist raamatut valima.'},
+  {title:'Kinopileti ostmine',goal:'Külastaja valib seansi. Esimene ekraan näitab vaba kohta, teine väljamüüdud seanssi.',steps:['Kinokava','Vali seanss','Kas kohti on?','Pilet ostetud'],no:'Teine seanss',firstLabel:'1. Koht on vaba. Leia viga!',secondLabel:'2. Seanss on välja müüdud',screen:'Seansi valik',parts:[['line','Film: Täheöö'],['field','Rida 5, koht 8'],['note','Hind: 8 €']],secondScreen:'Seansi valik',secondParts:[['line','Film: Täheöö'],['note','Sellele seansile ei ole enam vabu kohti.'],['button','Vali teine seanss']],options:['Vaba koha ekraanil puudub ostmise või jätkamise nupp.','Filmi nime ei tohiks näidata.','Ekraanidel ei ole ilmset viga.'],correct:0,why:'Vaba koht ja hind on näha, kuid piletiga edasi liikumise nuppu ei ole. Väljamüüdud seansi ekraan võimaldab õigesti uut seanssi valida.'},
+  {title:'Arsti vastuvõtule registreerumine',goal:'Proovi allolevat prototüüpi: vali esmalt kell 10:30 ja seejärel alusta uuesti ning vali 11:30. Kas mõlemad teekonnad toimivad?',steps:['Vastuvõtud','Vali aeg','Kas aeg vaba?','Aeg kinnitatud'],no:'Teine aeg',screen:'Broneeri vastuvõtt',parts:[['line','Perearst'],['field','Kuupäev: 12.11'],['field','Kellaaeg: 10:30'],['note','Aeg on saadaval'],['button','Kinnita aeg']],options:['Kinnitamise nupp puudub.','Hõivatud aja korral ei saa valida uut aega ja kuvatakse eksitav kinnitamisnupp.','Prototüübis ei ole ilmset viga.'],correct:1,why:'Kui aeg on hõivatud, peab kasutaja saama valida uue aja. Kinnitamisnupp ei tohiks jätta muljet, et hõivatud aega saab broneerida.'},
+  {title:'Konto loomine',goal:'Uus kasutaja registreerub. Teisel ekraanil on vormis viga, mida tuleb parandada.',steps:['Avaleht','Täida vorm','Kas andmed sobivad?','Konto loodud'],no:'Paranda vorm',firstLabel:'1. Konto loomise vorm. Leia viga!',secondLabel:'2. Vigased andmed',screen:'Loo konto',parts:[['field','E-posti aadress'],['field','Parool'],['field','Korda parooli'],['button','Logi sisse']],secondScreen:'Paranda andmed',secondParts:[['field','E-posti aadress'],['field','Parool'],['note','Parool peab sisaldama vähemalt 8 märki.'],['button','Paranda ja proovi uuesti']],options:['Parooli sisestusväli puudub.','Esimese ekraani nupu tekst ei vasta konto loomise eesmärgile.','Ekraanidel ei ole ilmset viga.'],correct:1,why:'„Logi sisse” tähendab olemasoleva kontoga sisenemist. Uue konto loomise nupul peaks olema „Loo konto”. Teine ekraan aitab vigaseid andmeid parandada.'},
+  {title:'Parooli taastamine',goal:'Kasutaja soovib unustatud parooli lähtestada. Proovi korrektset ja vigast e-posti aadressi.',steps:['Sisselogimine','Sisesta e-post','Kas e-post sobib?','Link saadetud'],no:'Paranda e-post',firstLabel:'1. Taastamisvorm',secondLabel:'2. Aadress vajab kontrollimist',screen:'Unustasid parooli?',parts:[['field','E-posti aadress'],['button','Saada taastamislink'],['note','Saadame juhised sinu e-postile.']],secondScreen:'Kontrolli e-posti',secondParts:[['note','Kontrolli sisestatud e-posti aadressi.'],['field','E-posti aadress'],['button','Proovi uuesti']],options:['Ekraanidel ei ole ilmset viga.','Kasutaja peab nägema vana parooli.','Taastamisnupp puudub.'],correct:0,why:'Vorm võimaldab taastamislinki küsida ja vajadusel aadressi parandada. Vana parooli ei pea näitama.'},
+  {title:'Toidu kaasa tellimine',goal:'Klient valib roa. Võrdle ostukorvi ja menüüsse tagasiliikumist.',steps:['Menüü','Vali roog','Kas soovid tellida?','Tellimus kinnitatud'],no:'Tagasi menüüsse',firstLabel:'1. Tellimuse kokkuvõte. Leia viga!',secondLabel:'2. Kasutaja ei soovi seda rooga',screen:'Tellimuse kokkuvõte',parts:[['line','Pasta + jook'],['field','Kogus: 2'],['button','Kinnita tellimus']],secondScreen:'Toote detailid',secondParts:[['line','Pasta + jook'],['note','Soovid valida midagi muud?'],['button','Tagasi menüüsse']],options:['Tellimuse kinnitamine puudub.','Enne kinnitamist ei ole kogus nähtav.','Enne kinnitamist ei kuvata tellimuse koguhinda.'],correct:2,why:'Kogus ja kinnitamisnupp on olemas, kuid enne tellimist peaks kasutaja nägema koguhinda. Teisel ekraanil saab ta valikust loobuda.'},
+  {title:'Kontaktvormi saatmine',goal:'Külastaja saadab sõnumi. Kui mõni kohustuslik väli on tühi, saab ta selle parandada.',steps:['Kontakt','Täida vorm','Kas vorm korras?','Sõnum saadetud'],no:'Paranda väljad',firstLabel:'1. Täidetud kontaktvorm',secondLabel:'2. Kohustuslik väli on tühi',screen:'Võta ühendust',parts:[['field','Nimi'],['field','E-post'],['field','Sõnum'],['button','Saada sõnum']],secondScreen:'Paranda kontaktvorm',secondParts:[['field','Nimi'],['field','E-post'],['field','Sõnum'],['note','E-posti aadress on kohustuslik.'],['button','Paranda andmed']],options:['Ekraanidel ei ole ilmset viga.','Sõnumiväli puudub.','Saatmisnupp puudub.'],correct:0,why:'Täidetud vormi saab saata. Vea korral näidatakse selgitust ja antakse võimalus andmeid parandada.'},
+  {title:'Uudiskirjaga liitumine',goal:'Lugeja sisestab korrektse e-posti aadressi ja vajutab „Liitu”. Võrdle vormi ja ekraani pärast saatmist.',steps:['Avaleht','Sisesta e-post','Kas aadress sobib?','Liitumine kinnitatud'],no:'Paranda e-post',firstLabel:'1. Enne saatmist',secondLabel:'2. Pärast nupule vajutamist. Leia viga!',screen:'Liitu uudiskirjaga',parts:[['field','E-posti aadress'],['button','Liitu']],secondScreen:'Liitu uudiskirjaga',secondParts:[['field','E-posti aadress'],['button','Liitu']],options:['Vormil on liiga vähe välju.','Pärast saatmist ei ole õnnestumise kinnitust ega muud tagasisidet.','Ekraanidel ei ole ilmset viga.'],correct:1,why:'Pärast edukat liitumist peaks ekraan teatama, et avaldus võeti vastu. Praegu jääb see samaks ja kasutaja ei tea, kas tegevus õnnestus.'},
+  {title:'Kodutöö esitamine',goal:'Õpilane laadib üles faili. Kui üleslaadimine ebaõnnestub, peab ta saama uuesti proovida.',steps:['Ülesanne','Lisa fail','Kas fail lisatud?','Töö esitatud'],no:'Vali fail uuesti',firstLabel:'1. Fail on lisatud',secondLabel:'2. Faili lisamine ebaõnnestus',screen:'Kodutöö esitamine',parts:[['line','Ülesanne 8'],['field','Valitud fail: kodutoo.pdf'],['button','Esita töö'],['note','Esitamise tähtaeg: reede']],secondScreen:'Lisa fail uuesti',secondParts:[['line','Ülesanne 8'],['note','Faili lisamine ebaõnnestus.'],['button','Vali fail uuesti']],options:['Ekraanidel ei ole ilmset viga.','Faili nimi peab olema peidetud.','Esitamise nupp puudub.'],correct:0,why:'Eduka üleslaadimise järel on fail ja esitamisnupp näha. Ebaõnnestumise korral saab faili uuesti valida.'},
+  {title:'Hotellitoa broneerimine',goal:'Külastaja valib toa. Kui tuba ei ole saadaval, saab ta valida teise.',steps:['Toad','Vali tuba','Kas vaba?','Broneering kinnitatud'],no:'Vali teine',firstLabel:'1. Tuba on vaba. Leia viga!',secondLabel:'2. Tuba ei ole saadaval',screen:'Broneeri tuba',parts:[['line','Kahekohaline tuba'],['field','Saabumine: 20.11'],['field','Lahkumine: 23.11'],['button','Broneeri']],secondScreen:'Vali teine tuba',secondParts:[['line','Kahekohaline tuba'],['note','Valitud kuupäevadel ei ole see tuba saadaval.'],['button','Vaata teisi tube']],options:['Toatüüp puudub.','Kuupäevad puuduvad.','Esimesel ekraanil puudub hind enne broneerimist.'],correct:2,why:'Külastaja peab enne siduvat broneerimist teadma hinda. Kui tuba pole saadaval, on teisel ekraanil korrektne võimalus valida teine.'}
 ];
 
 function esc(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function flowSvg(item){
   const [start,screen,decision,end]=item.steps;
-  const text=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="12" font-weight="650" fill="#2a322c">${esc(s)}</text>`;
+  const text=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="650" fill="#2a322c">${esc(s)}</text>`;
   return `<svg viewBox="0 0 700 226" role="img" aria-label="${esc(item.steps.join(' → '))}; Ei: ${esc(item.no)}">
   <defs><marker id="arr-${esc(item.title.replace(/\W/g,''))}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#777" stroke-width="1.4"/></marker></defs>
   <g stroke="#777" stroke-width="2" fill="none" marker-end="url(#arr-${esc(item.title.replace(/\W/g,''))})"><path d="M154 119 H179"/><path d="M334 119 H358"/><path d="M527 119 H544"/><path d="M442 68 V25 H253 V82"/></g>
@@ -88,10 +157,10 @@ function flowSvg(item){
   <rect x="179" y="90" width="155" height="58" rx="13" fill="#f1f3e9" stroke="#8ea086" stroke-width="2"/>${text(256,119,screen)}
   <path d="M442 68 L527 119 L442 170 L357 119 Z" fill="#ffead8" stroke="#dc985f" stroke-width="2"/>${text(442,110,decision.length>19?decision.slice(0,19):decision)}${decision.length>19?text(442,128,decision.slice(19)):''}
   <rect x="544" y="90" width="150" height="58" rx="25" fill="#dff0bd" stroke="#70904f" stroke-width="2"/>${text(619,112,end.length>18?end.slice(0,18):end)}${end.length>18?text(619,128,end.slice(18)):''}
-  <text x="539" y="103" fill="#ad6d3f" font-size="12" font-weight="700">Jah</text><text x="353" y="20" fill="#ad6d3f" font-size="12" font-weight="700">Ei → ${esc(item.no)}</text></svg>`;
+  <text x="539" y="103" fill="#ad6d3f" font-size="14" font-weight="700">Jah</text><text x="353" y="20" fill="#ad6d3f" font-size="14" font-weight="700">Ei → ${esc(item.no)}</text></svg>`;
 }
-function mock(item){
-  return `<div class="mock-frame"><div class="mock-screen"><div class="mock-title">${esc(item.screen)}</div>${item.parts.map(([type,value])=>{
+function mock(item,parts=item.parts,screen=item.screen){
+  return `<div class="mock-frame"><div class="mock-screen"><div class="mock-title">${esc(screen)}</div>${parts.map(([type,value])=>{
     if(type==='line')return `<div style="font-weight:700;font-size:12px">${esc(value)}</div><div class="mock-line"></div>`;
     if(type==='field')return `<div class="mock-field">${esc(value)}</div>`;
     if(type==='button')return `<div class="mock-button">${esc(value)}</div>`;
@@ -99,23 +168,51 @@ function mock(item){
   }).join('')}</div></div>`;
 }
 let answers={};
+let selected={};
+// Koodiosa fragmendid on segatud järjekorras ja XOR-võtmetega kodeeritud.
+// Täielik tulemus moodustatakse alles pärast kõigi ülesannete lahendamist.
+function completedCode(){
+  const blocks=[{mask:73,data:[2,6,7]},{mask:109,data:[41]},{mask:41,data:[125,108,108]}];
+  return [2,0,1].map(i=>String.fromCharCode(...blocks[i].data.map(n=>n^blocks[i].mask))).join('');
+}
 function updateScore(){
   const keys=Object.keys(answers);const correct=keys.filter(k=>answers[k]===exercises[Number(k)].correct).length;
-  document.getElementById('practice-score').textContent=`Vastatud: ${keys.length} / 10 · Õigeid vastuseid: ${correct}`;
+  document.getElementById('practice-score').textContent=`Õigeid vastuseid: ${correct} / 10`;
+  const result=document.getElementById('final-result');
+  if(correct===exercises.length){result.innerHTML='<h2>Suurepärane töö! 🎉</h2><p>Oled kõik kümme ülesannet õigesti lahendanud. Sisesta see salasõna Moodle\'i testi:</p><div class="secret"></div><p>Kirjuta sõna täpselt nii, nagu siin näidatud.</p>';result.querySelector('.secret').textContent=completedCode();}
+  else{result.innerHTML=`<h2>Salasõna ootab!</h2><p>Oled lahendanud õigesti ${correct} küsimust kümnest. Kontrolli ülejäänud vastused üle, et salasõna avada.</p>`;}
 }
 function renderPractice(){
   const grid=document.getElementById('practice-grid');
-  grid.innerHTML=exercises.map((item,i)=>`<article class="practice-card"><div class="practice-meta">Näide ${String(i+1).padStart(2,'0')} / 10</div><h3>${esc(item.title)}</h3><p>${esc(item.goal)}</p><div class="mini-flow">${flowSvg(item)}</div><div class="practice-meta">Wireframe'i näidis</div>${mock(item)}<strong style="font-size:14px">Mis on selle ekraaniga valesti?</strong><div class="quiz-options">${item.options.map((option,j)=>`<button class="quiz-option" data-case="${i}" data-choice="${j}">${String.fromCharCode(65+j)}. ${esc(option)}</button>`).join('')}</div><div class="quiz-result" id="result-${i}" role="status" aria-live="polite">Vali vastus.</div></article>`).join('');
+  grid.innerHTML=exercises.map((item,i)=>`<article class="practice-card"><div class="practice-meta">Näide ${String(i+1).padStart(2,'0')} / 10</div><h3>${esc(item.title)}</h3><p>${esc(item.goal)}</p><div class="mini-flow">${flowSvg(item)}</div><div class="practice-meta">Interaktiivne wireframe</div>${prototypeMarkup(i)}<strong style="font-size:16px">Mis on sellel näitel valesti?</strong><div class="quiz-options">${item.options.map((option,j)=>`<button type="button" class="quiz-option" data-case="${i}" data-choice="${j}" aria-pressed="false">${String.fromCharCode(65+j)}. ${esc(option)}</button>`).join('')}</div><button type="button" class="check-answer" data-check="${i}" disabled>Kontrolli vastust</button><div class="quiz-result" id="result-${i}" role="status" aria-live="polite">Vali vastus ja vajuta „Kontrolli vastust”.</div></article>`).join('');
+  exercises.forEach((_,i)=>renderPrototype(i));
   updateScore();
 }
 document.getElementById('practice-grid').addEventListener('click',event=>{
-  const button=event.target.closest('button[data-case]');if(!button)return;
-  const i=Number(button.dataset.case),choice=Number(button.dataset.choice),item=exercises[i];answers[i]=choice;
-  button.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('selected',b===button));
-  document.getElementById(`result-${i}`).textContent=(choice===item.correct?'✓ Õige! ':'Proovi veel. ')+item.why;
+  const prototype=event.target.closest('button[data-proto]');
+  if(prototype){handlePrototypeClick(prototype);return;}
+  const option=event.target.closest('button[data-case]');
+  if(option){
+    const i=Number(option.dataset.case);selected[i]=Number(option.dataset.choice);
+    const card=option.closest('.practice-card');
+    card.querySelectorAll('.quiz-option').forEach(b=>{b.classList.remove('selected','correct','incorrect');b.classList.toggle('selected',b===option);b.setAttribute('aria-pressed',String(b===option));});
+    card.querySelector('.check-answer').disabled=false;
+    const result=document.getElementById(`result-${i}`);result.textContent='Vastus on valitud. Nüüd kontrolli seda.';result.classList.remove('error');
+    return;
+  }
+  const check=event.target.closest('button[data-check]');if(!check)return;
+  const i=Number(check.dataset.check),choice=selected[i];if(choice===undefined)return;
+  const item=exercises[i],correct=choice===item.correct;
+  answers[i]=choice;
+  const card=check.closest('.practice-card');
+  card.querySelectorAll('.quiz-option').forEach(b=>{b.classList.remove('correct','incorrect');if(Number(b.dataset.choice)===choice)b.classList.add(correct?'correct':'incorrect');});
+  const result=document.getElementById(`result-${i}`);result.textContent=correct?'✓ Õige! '+item.why:'✗ See ei ole päris õige. Vali teine variant ja kontrolli uuesti.';result.classList.toggle('error',!correct);
   updateScore();
 });
-document.getElementById('reset-practice').addEventListener('click',()=>{answers={};renderPractice();});
+document.getElementById('practice-grid').addEventListener('change',event=>{
+  if(event.target.matches('input[data-upload]'))handlePrototypeUpload(event.target);
+});
+document.getElementById('reset-practice').addEventListener('click',()=>{answers={};selected={};renderPractice();});
 renderPractice();
 
 </script>
